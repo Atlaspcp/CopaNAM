@@ -123,11 +123,12 @@ st.markdown("""
         margin-right: auto;
     }
 
+    /* AJUSTE: Grid más ancho para textos y logos grandes */
     .grid-posiciones { 
         display: grid; 
-        grid-template-columns: 300px repeat(8, 42px); 
+        grid-template-columns: 350px repeat(8, 45px); 
         align-items: center; 
-        padding: 10px 12px; 
+        padding: 12px 15px; 
     }
     
     .header-grid { 
@@ -138,24 +139,26 @@ st.markdown("""
         letter-spacing: 1px;
     }
 
+    /* AJUSTE: Fuente más grande en tabla */
     .team-name-cell {
         display: flex;
         align-items: center;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        gap: 8px;
+        gap: 12px;
+        font-size: 1.15rem;
     }
 
-    /* Estilos específicos para la sección de resultados */
     .res-team-container {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 12px;
         white-space: nowrap;
+        font-size: 1.1rem;
     }
 
-    .group-label { color: #FFD700; font-size: 1.3em; font-weight: 900; }
+    .group-label { color: #FFD700; font-size: 1.4em; font-weight: 900; }
     .stat-cell { text-align: center; font-weight: bold; color: #ffffff !important; }
     
     .pts-cell { 
@@ -171,15 +174,22 @@ st.markdown("""
     }
 
     .bracket-scroll { overflow-x: auto; width: 100%; padding: 20px 0; }
-    .bracket-wrapper { display: flex; justify-content: space-between; align-items: center; min-width: 1050px; padding: 20px 0; }
-    .bracket-column { display: flex; flex-direction: column; justify-content: space-around; min-height: 550px; width: 240px; }
-    .match-box-ko { background: rgba(0, 20, 80, 0.8); border-radius: 8px; border: 1px solid #FFD70044; padding: 10px; margin: 15px 0; }
-    .ko-score { background: #FFD700; color: #000; font-weight: 900; width: 28px; text-align: center; border-radius: 3px; }
+    .bracket-wrapper { display: flex; justify-content: space-between; align-items: center; min-width: 1100px; padding: 20px 0; }
+    .bracket-column { display: flex; flex-direction: column; justify-content: space-around; min-height: 550px; width: 260px; }
+    .match-box-ko { background: rgba(0, 20, 80, 0.8); border-radius: 8px; border: 1px solid #FFD70044; padding: 12px; margin: 15px 0; }
+    .ko-score { background: #FFD700; color: #000; font-weight: 900; width: 32px; text-align: center; border-radius: 3px; font-size: 1.1rem; }
     
-    .final-center { width: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .final-center { width: 340px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
     .logo-epico { filter: drop-shadow(0 0 20px #FFD700); margin-bottom: 10px; }
 
     .date-divider { background: #FFD700; color: black; padding: 5px 20px; font-weight: 900; border-radius: 4px; margin: 25px 0 10px 0; display: inline-block; }
+
+    .grid-goleadores {
+        display: grid;
+        grid-template-columns: 200px 180px 80px;
+        align-items: center;
+        font-size: 1.1rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -199,14 +209,15 @@ def render_match(match):
     img1 = f"data:image/png;base64,{img_to_base64(t1['logo'])}" if t1['logo'] else "https://cdn-icons-png.flaticon.com/512/53/53283.png"
     img2 = f"data:image/png;base64,{img_to_base64(t2['logo'])}" if t2['logo'] else "https://cdn-icons-png.flaticon.com/512/53/53283.png"
     gl_disp, gv_disp = format_score(match["gl"]), format_score(match["gv"])
+    # AJUSTE: Logos de 30px y texto de 1.0em
     return f'''
     <div class="match-box-ko">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <div style="display:flex;align-items:center;"><img src="{img1}" style="width:22px;margin-right:8px;"><span style="font-size:0.8em;font-weight:700;">{t1["nombre"] or "---"}</span></div>
+            <div style="display:flex;align-items:center;"><img src="{img1}" style="width:30px;margin-right:10px;"><span style="font-size:1.0em;font-weight:700;">{t1["nombre"] or "---"}</span></div>
             <span class="ko-score">{gl_disp}</span>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;">
-            <div style="display:flex;align-items:center;"><img src="{img2}" style="width:22px;margin-right:8px;"><span style="font-size:0.8em;font-weight:700;">{t2["nombre"] or "---"}</span></div>
+            <div style="display:flex;align-items:center;"><img src="{img2}" style="width:30px;margin-right:10px;"><span style="font-size:1.0em;font-weight:700;">{t2["nombre"] or "---"}</span></div>
             <span class="ko-score">{gv_disp}</span>
         </div>
     </div>'''
@@ -260,10 +271,11 @@ if not st.session_state.get('logged_in', False):
                 </div>'''
             for eq in eq_g:
                 img = f"data:image/png;base64,{img_to_base64(eq['logo'])}" if eq['logo'] else "https://cdn-icons-png.flaticon.com/512/53/53283.png"
+                # AJUSTE: Logo de 32px en tabla
                 html += f'''
                 <div class="grid-posiciones team-row">
                     <div class="team-name-cell">
-                        <img src="{img}" style="width:24px;">
+                        <img src="{img}" style="width:32px;">
                         <span style="font-weight:700;">{eq["nombre"]}</span>
                     </div>
                     <span class="stat-cell">{eq["PJ"]}</span><span class="stat-cell">{eq["G"]}</span>
@@ -283,7 +295,7 @@ if not st.session_state.get('logged_in', False):
                 <div class="bracket-column"><h4>CUARTOS</h4>{render_match(ff["cuartos"][0])}{render_match(ff["cuartos"][1])}</div>
                 <div class="bracket-column"><h4>SEMIFINAL</h4>{render_match(ff["semis"][0])}</div>
                 <div class="final-center">
-                    {"<img src='"+logo_f+"' class='logo-epico' width=180>" if logo_f else "<h2 class='txt-gold'>FINAL</h2>"}
+                    {"<img src='"+logo_f+"' class='logo-epico' width=200>" if logo_f else "<h2 class='txt-gold'>FINAL</h2>"}
                     <h1 style="color:white !important; margin: 10px 0; text-shadow: 0 0 10px rgba(255,215,0,0.5);">GRAN FINAL</h1>
                     {render_match(ff["final"])}
                 </div>
@@ -299,23 +311,25 @@ if not st.session_state.get('logged_in', False):
             for f in sorted(df['fecha'].unique(), reverse=True):
                 st.markdown(f'<div class="date-divider">{f}</div>', unsafe_allow_html=True)
                 st.markdown('<div class="table-container">', unsafe_allow_html=True)
-                html_res = '<div class="main-card" style="min-width: 520px;">'
+                html_res = '<div class="main-card" style="min-width: 580px;">'
                 for _, p in df[df['fecha'] == f].iterrows():
                     s_l = f"data:image/png;base64,{img_to_base64(l_map.get(p['local']))}" if l_map.get(p['local']) else "https://cdn-icons-png.flaticon.com/512/53/53283.png"
                     s_v = f"data:image/png;base64,{img_to_base64(l_map.get(p['visitante']))}" if l_map.get(p['visitante']) else "https://cdn-icons-png.flaticon.com/512/53/53283.png"
                     res_l, res_v = format_score(p["goles_l"]), format_score(p["goles_v"])
                     sep = "-" if (res_l != "" or res_v != "") else "VS"
                     
+                    # AJUSTE: Logos de 32px y texto 1.1em en resultados
                     html_res += f'''
-                            <div style="display:flex; align-items:center; justify-content:center; padding:15px 50px; border-bottom:1px solid #ffffff11; gap:15px;">                        <div class="res-team-container" style="flex:1; justify-content:flex-end;">
+                    <div style="display:flex; align-items:center; justify-content:center; padding:18px 50px; border-bottom:1px solid #ffffff11; gap:15px;">
+                        <div class="res-team-container" style="flex:1; justify-content:flex-end;">
                             <span style="font-weight:700;">{p["local"]}</span>
-                            <img src="{s_l}" width="24">
+                            <img src="{s_l}" width="32">
                         </div>
-                        <div style="width:80px; text-align:center; color:#FFD700; font-weight:900; font-size:1.3em;">
+                        <div style="width:100px; text-align:center; color:#FFD700; font-weight:900; font-size:1.4em;">
                             {res_l} {sep} {res_v}
                         </div>
                         <div class="res-team-container" style="flex:1; justify-content:flex-start;">
-                            <img src="{s_v}" width="24">
+                            <img src="{s_v}" width="32">
                             <span style="font-weight:700;">{p["visitante"]}</span>
                         </div>
                     </div>'''
@@ -326,9 +340,9 @@ if not st.session_state.get('logged_in', False):
         if st.session_state.goleadores:
             gols = sorted(st.session_state.goleadores, key=lambda x: int(x.get('goles', 0)), reverse=True)
             st.markdown('<div class="table-container">', unsafe_allow_html=True)
-            html_gol = '<div class="main-card"><div class="grid-goleadores header-grid"><span class="txt-gold">JUGADOR</span><span class="txt-white">EQUIPO</span><span class="stat-cell">GOLES</span></div>'
+            html_gol = '<div class="main-card"><div class="grid-goleadores header-grid"><span class="txt-gold" style="padding-left:15px;">JUGADOR</span><span class="txt-white">EQUIPO</span><span class="stat-cell">GOLES</span></div>'
             for g in gols:
-                html_gol += f'<div class="grid-goleadores" style="border-bottom:1px solid #ffffff10; padding: 10px 15px;"><span>{g["nombre"]}</span><span style="color:#7db1ff;">{g["equipo"]}</span><span class="stat-cell">{g["goles"]}</span></div>'
+                html_gol += f'<div class="grid-goleadores" style="border-bottom:1px solid #ffffff10; padding: 12px 15px;"><span>{g["nombre"]}</span><span style="color:#7db1ff;">{g["equipo"]}</span><span class="stat-cell" style="font-size:1.2em; color:#FFD700 !important;">{g["goles"]}</span></div>'
             st.markdown(html_gol + '</div>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
 
