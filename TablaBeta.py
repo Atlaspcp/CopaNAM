@@ -123,13 +123,36 @@ st.markdown("""
         margin-right: auto;
     }
 
-    .grid-posiciones { 
-        display: grid; 
-        grid-template-columns: 300px repeat(8, 42px); 
-        align-items: center; 
-        padding: 10px 12px; 
+    /* Estilo Goleadores Mejorado */
+    .grid-goleadores {
+        display: grid;
+        grid-template-columns: 50px 180px 1fr 80px; 
+        align-items: center;
+        padding: 10px 20px;
+        gap: 15px;
+        white-space: nowrap;
     }
-    
+
+    .top-scorer-card {
+        background: linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 20, 80, 0.6) 100%);
+        border: 2px solid #FFD700 !important;
+        margin: 10px 0 !important;
+        border-radius: 10px !important;
+    }
+
+    .top-scorer-name {
+        font-size: 1.4em !important;
+        color: #FFD700 !important;
+        text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+        font-weight: 900 !important;
+    }
+
+    .top-scorer-goals {
+        font-size: 1.8em !important;
+        color: #FFD700 !important;
+        font-weight: 900 !important;
+    }
+
     .header-grid { 
         background: rgba(0, 0, 0, 0.3);
         border-bottom: 2px solid #FFD700; 
@@ -138,42 +161,13 @@ st.markdown("""
         letter-spacing: 1px;
     }
 
-    /* Estilos Goleadores */
-    .grid-goleadores {
-        display: grid;
-        grid-template-columns: 60px 1fr 150px 100px;
-        align-items: center;
-        padding: 12px 20px;
-        gap: 15px;
-    }
-
-    .top-scorer-card {
-        background: linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 20, 80, 0.6) 100%);
-        border: 2px solid #FFD700 !important;
-        transform: scale(1.02);
-        margin: 10px 0 !important;
-        border-radius: 10px !important;
-    }
-
-    .top-scorer-name {
-        font-size: 1.6em !important;
-        color: #FFD700 !important;
-        text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-    }
-
-    .top-scorer-goals {
-        font-size: 2em !important;
-        color: #FFD700 !important;
-    }
-
     .stat-cell { text-align: center; font-weight: bold; color: #ffffff !important; }
     
-    .pts-cell { 
-        text-align: center; 
-        font-weight: 900; 
-        color: #FFD700 !important; 
-        background: rgba(255, 215, 0, 0.1);
-        border-radius: 4px;
+    .grid-posiciones { 
+        display: grid; 
+        grid-template-columns: 300px repeat(8, 42px); 
+        align-items: center; 
+        padding: 10px 12px; 
     }
 
     .team-row { border-bottom: 1px solid rgba(125, 177, 255, 0.15); }
@@ -182,8 +176,6 @@ st.markdown("""
     .bracket-column { display: flex; flex-direction: column; justify-content: space-around; min-height: 550px; width: 240px; }
     .match-box-ko { background: rgba(0, 20, 80, 0.8); border-radius: 8px; border: 1px solid #FFD70044; padding: 10px; margin: 15px 0; }
     .ko-score { background: #FFD700; color: #000; font-weight: 900; width: 28px; text-align: center; border-radius: 3px; }
-    .final-center { width: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-    .logo-epico { filter: drop-shadow(0 0 20px #FFD700); margin-bottom: 10px; }
     .date-divider { background: #FFD700; color: black; padding: 5px 20px; font-weight: 900; border-radius: 4px; margin: 25px 0 10px 0; display: inline-block; }
 </style>
 """, unsafe_allow_html=True)
@@ -282,17 +274,16 @@ if not st.session_state.get('logged_in', False):
 
     with t_gol:
         if st.session_state.goleadores:
-            # Lógica mejorada de Goleadores
             gols = sorted(st.session_state.goleadores, key=lambda x: int(x.get('goles', 0)), reverse=True)
             logo_map = {info['nombre']: info['logo'] for info in st.session_state.equipos.values()}
             
             st.markdown('<div class="table-container">', unsafe_allow_html=True)
             html_gol = f'''
-            <div class="main-card" style="min-width: 650px;">
+            <div class="main-card" style="min-width: 750px;">
                 <div class="grid-goleadores header-grid">
                     <span></span>
-                    <span class="txt-gold">JUGADOR</span>
                     <span class="txt-white">EQUIPO</span>
+                    <span class="txt-gold">JUGADOR</span>
                     <span class="stat-cell">GOLES</span>
                 </div>'''
 
@@ -300,23 +291,29 @@ if not st.session_state.get('logged_in', False):
                 team_logo = logo_map.get(g["equipo"])
                 img_str = f"data:image/png;base64,{img_to_base64(team_logo)}" if team_logo else "https://cdn-icons-png.flaticon.com/512/53/53283.png"
                 
-                # Resaltar al primero
                 is_top = "top-scorer-card" if idx == 0 else ""
                 name_class = "top-scorer-name" if idx == 0 else ""
                 goal_class = "top-scorer-goals" if idx == 0 else "stat-cell"
-                img_size = "45px" if idx == 0 else "32px"
+                img_size = "40px" if idx == 0 else "30px"
                 
                 html_gol += f'''
                 <div class="grid-goleadores {is_top}" style="border-bottom:1px solid #ffffff10;">
-                    <div style="display:flex; justify-content:center;">
+                    <div style="display:flex; justify-content:center; align-items:center;">
                         <img src="{img_str}" style="width: {img_size}; height: {img_size}; object-fit: contain;">
                     </div>
-                    <span class="{name_class}" style="font-weight:700;">{g["nombre"]}</span>
-                    <span style="color:#7db1ff; font-weight:400;">{g["equipo"]}</span>
-                    <span class="{goal_class}" style="font-weight:900; text-align:center;">{g["goles"]}</span>
+                    <span style="color:#7db1ff; font-weight:{'900' if idx==0 else '400'}; overflow:hidden; text-overflow:ellipsis;">
+                        {g["equipo"]}
+                    </span>
+                    <span class="{name_class}" style="overflow:hidden; text-overflow:ellipsis;">
+                        {g["nombre"]}
+                    </span>
+                    <span class="{goal_class}" style="text-align:center;">
+                        {g["goles"]}
+                    </span>
                 </div>'''
-            
             st.markdown(html_gol + '</div></div>', unsafe_allow_html=True)
+        else:
+            st.info("No hay goleadores registrados.")
 
 # --- 6. PANEL ADMINISTRADOR ---
 with st.sidebar:
@@ -363,11 +360,10 @@ with st.sidebar:
                 with st.expander(f"{p['fecha']} | {p['local']} vs {p['visitante']}"):
                     ngl = st.number_input("GL", value=int(p['goles_l']) if p['goles_l'] is not None else 0, key=f"egl{i}")
                     ngv = st.number_input("GV", value=int(p['goles_v']) if p['goles_v'] is not None else 0, key=f"egv{i}")
-                    c1, c2 = st.columns(2)
-                    if c1.button("💾", key=f"upd{i}"):
+                    if st.button("💾", key=f"upd{i}"):
                         st.session_state.partidos[i].update({'goles_l': int(ngl), 'goles_v': int(ngv)})
                         save_to_disk(); st.rerun()
-                    if c2.button("🗑️", key=f"delp{i}"): st.session_state.partidos.pop(i); save_to_disk(); st.rerun()
+                    if st.button("🗑️", key=f"delp{i}"): st.session_state.partidos.pop(i); save_to_disk(); st.rerun()
 
         with adm_t[3]:
             eqs_ko = [""] + eqs_lista
@@ -397,10 +393,8 @@ with st.sidebar:
             st.divider()
             for idx_g, g_data in enumerate(st.session_state.goleadores):
                 with st.expander(f"{g_data['nombre']} ({g_data['equipo']})"):
-                    cl, cp, cm = st.columns([2,1,1])
-                    cl.write(f"Goles: {g_data['goles']}")
-                    if cp.button("➕", key=f"p{idx_g}"): st.session_state.goleadores[idx_g]['goles'] += 1; save_to_disk(); st.rerun()
-                    if cm.button("➖", key=f"m{idx_g}"): 
+                    if st.button("➕", key=f"p{idx_g}"): st.session_state.goleadores[idx_g]['goles'] += 1; save_to_disk(); st.rerun()
+                    if st.button("➖", key=f"m{idx_g}"): 
                         if g_data['goles'] > 0: st.session_state.goleadores[idx_g]['goles'] -= 1; save_to_disk(); st.rerun()
                     if st.button("🗑️", key=f"dg{idx_g}"): st.session_state.goleadores.pop(idx_g); save_to_disk(); st.rerun()
 
@@ -411,7 +405,6 @@ with st.sidebar:
             if sub_file and st.button("🔴 RESTAURAR"):
                 with open(DB_FILE, "wb") as f_db: f_db.write(sub_file.getbuffer())
                 st.rerun()
-            st.divider()
             if st.button("🔥 RESET TOTAL") and st.checkbox("Confirmar"):
                 if os.path.exists(DB_FILE): os.remove(DB_FILE)
                 st.rerun()
