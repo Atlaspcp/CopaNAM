@@ -85,43 +85,53 @@ def load_from_disk():
         except: return False
     return False
 
-# --- 2. ESTILOS CSS (DISEÑO RESPONSIVO) ---
+# --- 2. ESTILOS CSS ---
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap');
     [data-testid="stAppViewContainer"] { background: radial-gradient(circle at top, #00124d 0%, #000422 100%) !important; }
     
+    /* Título Coloreado */
+    .txt-celeste { color: #7db1ff !important; }
+    .txt-red { color: #ff3b3b !important; }
+    .txt-gold { color: #FFD700 !important; }
+
     /* Optimización Móvil */
     @media (max-width: 768px) {
         .nam-title { font-size: 2.2em !important; }
-        .main-card { width: 95% !important; min-width: 95% !important; }
-        .grid-goleadores { grid-template-columns: 40px 100px 1fr 50px !important; gap: 8px !important; font-size: 0.85em !important; }
-        .grid-posiciones { grid-template-columns: 120px repeat(8, 28px) !important; font-size: 0.7em !important; }
-        .res-team-box { width: 110px !important; font-size: 0.8em !important; }
-        .ko-score { width: 22px !important; height: 20px !important; font-size: 0.8em !important; }
-        .jornada-title { font-size: 0.9em !important; }
+        .main-card { width: 98% !important; min-width: 98% !important; }
+        .grid-goleadores { grid-template-columns: 40px 100px 1fr 50px !important; gap: 8px !important; padding: 10px !important; }
+        .grid-posiciones { grid-template-columns: 110px repeat(8, 30px) !important; font-size: 0.75em !important; overflow-x: auto; }
+        .res-team-box { width: 110px !important; font-size: 0.85em !important; }
+        .top-scorer-name { font-size: 1.1em !important; }
     }
 
     .nam-title { font-size: 4em; text-align: center; font-weight: 900; color: white; margin-bottom: 20px; }
     .table-container { display: flex; flex-direction: column; align-items: center; width: 100%; }
-    .main-card { background: rgba(0, 10, 60, 0.4); border-radius: 12px; margin-bottom: 20px; border: 1px solid #FFD70033; color: white; backdrop-filter: blur(10px); overflow: hidden; width: fit-content; }
+    .main-card { background: rgba(0, 10, 60, 0.4); border-radius: 12px; margin-bottom: 25px; border: 1px solid #FFD70033; color: white; backdrop-filter: blur(10px); overflow: hidden; width: fit-content; }
     
+    /* Goleadores y Efectos */
     .grid-goleadores { display: grid; grid-template-columns: 50px 250px 1fr 80px; align-items: center; padding: 12px 20px; gap: 15px; white-space: nowrap; }
-    .top-scorer-card { background: linear-gradient(90deg, rgba(255, 215, 0, 0.15) 0%, rgba(0, 20, 80, 0.6) 100%); border: 2px solid #FFD700 !important; }
+    .top-scorer-card { background: linear-gradient(90deg, rgba(255, 215, 0, 0.18) 0%, rgba(0, 20, 80, 0.6) 100%); border: 2px solid #FFD700 !important; border-radius: 10px !important; }
+    .top-scorer-name { font-size: 1.4em !important; color: #FFD700 !important; text-shadow: 0 0 10px rgba(255, 215, 0, 0.4); font-weight: 900 !important; }
+    .top-scorer-goals { font-size: 1.8em !important; color: #FFD700 !important; font-weight: 900 !important; }
     
+    /* Fase Final */
     .bracket-scroll { overflow-x: auto; width: 100%; padding: 10px 0; -webkit-overflow-scrolling: touch; }
-    .bracket-wrapper { display: flex; align-items: center; min-width: 1100px; gap: 20px; margin: 0 auto; }
-    .bracket-column { display: flex; flex-direction: column; justify-content: space-around; min-height: 500px; width: 220px; }
+    .bracket-wrapper { display: flex; align-items: center; min-width: 1150px; gap: 20px; margin: 0 auto; }
+    .bracket-column { display: flex; flex-direction: column; justify-content: space-around; min-height: 500px; width: 230px; }
     .match-box-ko { background: rgba(0, 20, 80, 0.8); border-radius: 8px; border: 1px solid #FFD70044; padding: 10px; margin: 15px 0; }
     .ko-score { background: #FFD700; color: #000; font-weight: 900; width: 30px; height: 26px; text-align: center; border-radius: 3px; display: flex; align-items: center; justify-content: center; }
-    .logo-epico { filter: drop-shadow(0 0 15px #FFD700); margin-bottom: 10px; }
+    .logo-epico { filter: drop-shadow(0 0 20px #FFD700); margin-bottom: 10px; }
     
+    /* Fechas y Títulos */
     .date-divider { background: #FFD700; color: black; padding: 5px 20px; font-weight: 900; border-radius: 4px 4px 0 0; font-size: 0.85em; display: inline-block; text-transform: uppercase; }
     .jornada-title { background: rgba(255, 215, 0, 0.2); color: #FFD700; padding: 5px 20px; font-weight: 900; border-radius: 0 0 4px 4px; border-left: 4px solid #FFD700; font-size: 1.1em; margin-bottom: 15px; width: fit-content; margin-left: auto; margin-right: auto; }
     .res-team-box { display: flex; align-items: center; gap: 10px; width: 280px; }
     .header-grid { background: rgba(0, 0, 0, 0.3); border-bottom: 2px solid #FFD700; font-weight: 900; text-transform: uppercase; }
     .grid-posiciones { display: grid; grid-template-columns: 300px repeat(8, 42px); align-items: center; padding: 10px 12px; }
     .team-row { border-bottom: 1px solid rgba(125, 177, 255, 0.15); }
+    h4 { color: #FFD700 !important; font-weight: 900; margin-bottom: 5px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -179,7 +189,7 @@ if 'equipos' not in st.session_state:
 # --- 5. INTERFAZ PÚBLICA ---
 st.markdown('<h1 class="nam-title">#<span class="txt-celeste">N</span><span class="txt-red">A</span>MLEAGUE2026</h1>', unsafe_allow_html=True)
 
-t_pos, t_ff, t_res, t_gol = st.tabs(["📊 POS", "🏆 FASE FINAL", "⚽ RESULTADOS", "👟 GOLES"])
+t_pos, t_ff, t_res, t_gol = st.tabs(["📊 POSICIONES", "🏆 FASE FINAL", "⚽ RESULTADOS", "👟 GOLEADORES"])
 
 with t_res:
     if st.session_state.partidos:
@@ -224,7 +234,13 @@ with t_gol:
         for idx, g in enumerate(gols):
             img = f"data:image/png;base64,{img_to_base64(l_map.get(g['equipo']))}" if l_map.get(g['equipo']) else "https://cdn-icons-png.flaticon.com/512/53/53283.png"
             is_t = "top-scorer-card" if idx == 0 else ""
-            html_gol += f'<div class="grid-goleadores {is_t}" style="border-bottom:1px solid #ffffff05;"><img src="{img}" width="30"><span style="color:#7db1ff;overflow:hidden;">{g["equipo"]}</span><span style="font-weight:700;overflow:hidden;">{g["nombre"]}</span><span style="text-align:center;font-weight:900;color:#FFD700;font-size:1.2em;">{g["goles"]}</span></div>'
+            html_gol += f'''
+            <div class="grid-goleadores {is_t}" style="border-bottom:1px solid #ffffff05;">
+                <img src="{img}" width="30">
+                <span style="color:#7db1ff;overflow:hidden;">{g["equipo"]}</span>
+                <span class="{"top-scorer-name" if idx==0 else ""}" style="font-weight:700;overflow:hidden;">{g["nombre"]}</span>
+                <span class="{"top-scorer-goals" if idx==0 else ""}" style="text-align:center;font-weight:900;color:#FFD700;font-size:1.2em;">{g["goles"]}</span>
+            </div>'''
         st.markdown(html_gol + '</div></div>', unsafe_allow_html=True)
 
 with t_pos:
@@ -258,7 +274,6 @@ with st.sidebar:
             if st.button("Añadir Partido"):
                 st.session_state.partidos.append({"fecha": str(f_p), "titulo": t_j, "local": l, "visitante": v, "goles_l": gl, "goles_v": gv})
                 save_to_disk(); st.rerun()
-            st.divider()
             for i, p in enumerate(st.session_state.partidos):
                 with st.expander(f"{p['fecha']} | {p['local']} vs {p['visitante']}"):
                     new_t = st.text_input("Editar Título", p.get('titulo', ''), key=f"t{i}")
@@ -268,6 +283,17 @@ with st.sidebar:
                         st.session_state.partidos[i].update({"goles_l": ngl, "goles_v": ngv, "titulo": new_t})
                         save_to_disk(); st.rerun()
                     if st.button("Borrar", key=f"d{i}"): st.session_state.partidos.pop(i); save_to_disk(); st.rerun()
+
+        with adm_t[1]:
+            for id_e, inf in st.session_state.equipos.items():
+                with st.expander(f"{inf['nombre']}"):
+                    nn = st.text_input("Nombre", inf['nombre'], key=f"n{id_e}").upper()
+                    ng = st.selectbox("Grupo", ["SIN GRUPO","A","B","C","D","E"], index=["SIN GRUPO","A","B","C","D","E"].index(inf['grupo']), key=f"g{id_e}")
+                    nl = st.file_uploader("Logo", key=f"l{id_e}")
+                    if st.button("Guardar", key=f"b{id_e}"):
+                        st.session_state.equipos[id_e].update({"nombre": nn, "grupo": ng})
+                        if nl: st.session_state.equipos[id_e]['logo'] = Image.open(nl)
+                        save_to_disk(); st.rerun()
 
         with adm_t[3]:
             eqs_ko = [""] + eqs_lista
@@ -279,26 +305,26 @@ with st.sidebar:
                             st.write(f"Partido {i+1}")
                             m["L"] = st.selectbox(f"L{ft}{i}", eqs_ko, index=eqs_ko.index(m["L"]) if m["L"] in eqs_ko else 0, key=f"l{ft}{i}")
                             m["V"] = st.selectbox(f"V{ft}{i}", eqs_ko, index=eqs_ko.index(m["V"]) if m["V"] in eqs_ko else 0, key=f"v{ft}{i}")
-                            has_r = st.checkbox("¿Resultado?", value=(m["gl"] is not None), key=f"r{ft}{i}")
+                            has_r = st.checkbox("¿Tiene resultado?", value=(m["gl"] is not None), key=f"r{ft}{i}")
                             if has_r:
                                 m["gl"] = st.number_input("GL", value=int(m["gl"]) if m["gl"] is not None else 0, key=f"gl{ft}{i}")
                                 m["gv"] = st.number_input("GV", value=int(m["gv"]) if m["gv"] is not None else 0, key=f"gv{ft}{i}")
                             else: m["gl"] = m["gv"] = None
                     else:
-                        matches["L"] = st.selectbox("L Fin", eqs_ko, index=eqs_ko.index(matches["L"]) if matches["L"] in eqs_ko else 0, key="lf")
-                        matches["V"] = st.selectbox("V Fin", eqs_ko, index=eqs_ko.index(matches["V"]) if matches["V"] in eqs_ko else 0, key="vf")
-                        has_rf = st.checkbox("¿Res?", value=(matches["gl"] is not None), key="rf")
+                        matches["L"] = st.selectbox("L Fin", eqs_ko, index=eqs_ko.index(matches["L"]) if matches["L"] in eqs_ko else 0, key="lfin")
+                        matches["V"] = st.selectbox("V Fin", eqs_ko, index=eqs_ko.index(matches["V"]) if matches["V"] in eqs_ko else 0, key="vfin")
+                        has_rf = st.checkbox("¿Res?", value=(matches["gl"] is not None), key="rfin")
                         if has_rf:
-                            matches["gl"] = st.number_input("GL", value=int(matches["gl"]) if matches["gl"] is not None else 0, key="glf")
-                            matches["gv"] = st.number_input("GV", value=int(matches["gv"]) if matches["gv"] is not None else 0, key="gvf")
+                            matches["gl"] = st.number_input("GL", value=int(matches["gl"]) if matches["gl"] is not None else 0, key="glfin")
+                            matches["gv"] = st.number_input("GV", value=int(matches["gv"]) if matches["gv"] is not None else 0, key="gvfin")
                         else: matches["gl"] = matches["gv"] = None
-            if st.button("Guardar"): save_to_disk(); st.rerun()
+            if st.button("Guardar FF"): save_to_disk(); st.rerun()
 
         with adm_t[4]:
             nj = st.text_input("Nombre").upper()
-            ej = st.selectbox("Equipo", eqs_lista, key="gol_admin")
-            gj = st.number_input("Goles iniciales", 0)
-            if st.button("Añadir Goleador"):
+            ej = st.selectbox("Equipo", eqs_lista, key="gol_adm")
+            gj = st.number_input("Goles", 0)
+            if st.button("Añadir"):
                 if nj: st.session_state.goleadores.append({"nombre": nj, "equipo": ej, "goles": int(gj)}); save_to_disk(); st.rerun()
             for idx, g in enumerate(st.session_state.goleadores):
                 with st.expander(f"{g['nombre']} ({g['goles']})"):
